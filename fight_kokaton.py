@@ -164,18 +164,18 @@ def main():
     score = Score()
     clock = pg.time.Clock()
     tmr = 0
-    beams = []  # List to store multiple beam instances
+    beams = [] 
 
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
-                beams.append(Beam(bird))  # Add a new beam instance to the list
+                beams.append(Beam(bird)) 
 
         screen.blit(bg_img, [0, 0])
 
-        # Collision detection for bird and bombs
+       
         for bomb in bombs:
             if bird.rct.colliderect(bomb.rct):
                 bird.change_img(8, screen)
@@ -183,21 +183,21 @@ def main():
                 time.sleep(1)
                 return
 
-        # Update and check collision for each beam
+        
         for beam in beams:
             beam.update(screen)
         beams = [beam for beam in beams if check_bound(beam.rct) == (True, True)]  # Remove out-of-bound beams
         
         for i, bomb in enumerate(bombs):
             for beam in beams:
-                if beam.rct.colliderect(bomb.rct):  # Beam hits bomb
+                if beam.rct.colliderect(bomb.rct):  
                     beams.remove(beam)
                     bombs[i] = None
                     bird.change_img(6, screen)
                     score.score += 1
                     pg.display.update()
 
-        # Remove destroyed bombs
+       
         bombs = [bomb for bomb in bombs if bomb is not None]
 
         key_lst = pg.key.get_pressed()
